@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func getDefaultLocalIP() string {
+func GetDefaultLocalIP() string {
 	addrs, err := net.InterfaceAddrs()
 	if err != nil {
 		log.Fatalf("Failed to get IP addresses: %s", err)
@@ -25,7 +25,7 @@ func getDefaultLocalIP() string {
 	return ""
 }
 
-func getIPByInterfaceName(interfaceName string) string {
+func GetIPByInterfaceName(interfaceName string) string {
 	adapter, err := net.InterfaceByName(interfaceName)
 	if err != nil {
 		log.Fatalf("Failed to find interface with name %s\nErr: %s", interfaceName, err)
@@ -44,7 +44,7 @@ func getIPByInterfaceName(interfaceName string) string {
 	return ""
 }
 
-func getInterfaces() []string {
+func GetInterfaces() []string {
 	ifaces, if_err := net.Interfaces()
 	if if_err != nil {
 		//nop
@@ -57,7 +57,7 @@ func getInterfaces() []string {
 	return iface_names
 }
 
-func runProxy(ipAddress string) {
+func RunProxy(ipAddress string) {
 	proxy := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if strings.HasPrefix(r.URL.String(), "http://www.acinfinityserver.com/api/") {
 			token := r.Header.Get("token")

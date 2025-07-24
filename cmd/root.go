@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/cars/ACScraper/network"
+
 	"github.com/spf13/cobra"
 )
 
@@ -14,12 +16,13 @@ var rootCmd = &cobra.Command{
 		fmt.Print("run with --help for more information\n")
 	},
 }
+
 var listCmd = &cobra.Command{
 	Use:     "list",
 	Aliases: []string{"l", "list-interfaces", "get-interfaces"},
 	Short:   "List interfaces available on the machine",
 	Run: func(cmd *cobra.Command, args []string) {
-		ifaces := GetInterfaces()
+		ifaces := network.GetInterfaces()
 		for _, iface := range ifaces {
 			fmt.Printf("Interface Name: %s\n", iface)
 		}
@@ -31,12 +34,16 @@ var proxyCmd = &cobra.Command{
 	Aliases: []string{"p", "start-proxy", "get-interfaces"},
 	Short:   "List interfaces available on the machine",
 	Run: func(cmd *cobra.Command, args []string) {
-		if args[0] {
-			ip := GetDefaultLocalIP()
+		var ip string
+		if len(args) == 0 {
+			fmt.Println("Using default behavior")
+			ip = network.GetDefaultLocalIP()
 		} else {
-			ip := GetIPByInterfaceName(args[0])
+			fmt.Printf("Looking for interface: %s", args[0])
+			ip = network.GetIPByInterfaceName(args[0])
+			fmt.Println("....found")
 		}
-
+		network.RunProxy(ip)
 	},
 }
 
@@ -51,6 +58,8 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 }
+
 func initConfig() {
+	//nop
 	return
 }

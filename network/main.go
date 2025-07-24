@@ -15,7 +15,7 @@ func GetDefaultLocalIP() string {
 		log.Fatalf("Failed to get IP addresses: %s", err)
 	}
 	for _, addr := range addrs {
-		fmt.Printf("Address Info: %+V", addr)
+		//fmt.Printf("Address Info: %+V", addr)
 		if ipnet, ok := addr.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
 			if ipnet.IP.To4() != nil {
 				return ipnet.IP.String()
@@ -51,7 +51,7 @@ func GetInterfaces() []string {
 	}
 	var iface_names []string
 	for _, iface := range ifaces {
-		fmt.Printf("Interface info: %+v\n", iface)
+		//fmt.Printf("Interface info: %+v\n", iface)
 		iface_names = append(iface_names, iface.Name)
 	}
 	return iface_names
@@ -86,7 +86,7 @@ func RunProxy(ipAddress string) {
 	//ip := getLocalIP()
 	fmt.Println("Starting proxy server on IP:", ipAddress, "and port: 8080")
 	fmt.Println("On your phone, set your proxy server to:", ipAddress, "with port: 8080")
-	log.Fatal(http.ListenAndServe(":8080", proxy))
+	log.Fatal(http.ListenAndServe(ipAddress+":8080", proxy))
 }
 
 func copyHeader(dst, src http.Header) {

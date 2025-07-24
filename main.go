@@ -1,8 +1,6 @@
 package main
 
-import (
-	"github.com/cars/ACScraper/cmd"
-)
+import "github.com/cars/ACScraper/cmd"
 
 func main() {
 	cmd.Execute()

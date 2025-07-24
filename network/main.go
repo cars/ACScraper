@@ -88,3 +88,11 @@ func runProxy(ipAddress string) {
 	fmt.Println("On your phone, set your proxy server to:", ipAddress, "with port: 8080")
 	log.Fatal(http.ListenAndServe(":8080", proxy))
 }
+
+func copyHeader(dst, src http.Header) {
+	for k, vv := range src {
+		for _, v := range vv {
+			dst.Add(k, v)
+		}
+	}
+}

@@ -7,6 +7,8 @@ import (
 	"net"
 	"net/http"
 	"strings"
+	"github.com/cars/ACScraper/cmd"
+	
 )
 
 func getLocalIP() string {
@@ -26,8 +28,8 @@ func getLocalIP() string {
 	return ""
 }
 
-func main() {
-	proxy := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+func runProxy {
+		proxy := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if strings.HasPrefix(r.URL.String(), "http://www.acinfinityserver.com/api/") {
 			token := r.Header.Get("token")
 			userAgent := r.Header.Get("User-Agent")
@@ -58,6 +60,11 @@ func main() {
 	log.Fatal(http.ListenAndServe(":8080", proxy))
 }
 
+
+func main() {
+
+	cmd.Execute()
+}
 func copyHeader(dst, src http.Header) {
 	for k, vv := range src {
 		for _, v := range vv {
